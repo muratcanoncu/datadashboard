@@ -1,0 +1,317 @@
+.ct-card {
+  --ct-bg: #1b1b1e;
+  --ct-surface: #222226;
+  --ct-border: #313135;
+  --ct-muted: #8e8e93;
+  --ct-text: #f5f5f7;
+  --ct-accent: #e82127;
+  --ct-accent-hover: #ff2d34;
+  --ct-row-hover: #27272b;
+  --ct-head-bg: #161618;
+  --ct-radius: 16px;
+
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--ct-bg);
+  border: 1px solid var(--ct-border);
+  border-radius: var(--ct-radius);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  color: var(--ct-text);
+  font-family: "Gotham SSm", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+/* ---- Header ---- */
+.ct-card__header {
+  padding: 28px 28px 0;
+}
+
+.ct-card__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.ct-card__subtitle {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: var(--ct-muted);
+}
+
+/* ---- Filter bar ---- */
+.ct-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  padding: 24px 28px;
+}
+
+.ct-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.ct-field--actions {
+  flex-direction: row;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.ct-field__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ct-muted);
+}
+
+.ct-field__input {
+  height: 42px;
+  padding: 0 14px;
+  font-size: 0.9375rem;
+  color: var(--ct-text);
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ct-field__input:focus {
+  border-color: var(--ct-accent);
+  background: #2a2a2e;
+  box-shadow: 0 0 0 3px rgba(232, 33, 39, 0.25);
+}
+
+.ct-field__input::placeholder {
+  color: #6a6a70;
+}
+
+/* Make the native date picker icon visible on dark fields. */
+.ct-field__input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+/* ---- Buttons ---- */
+.ct-btn {
+  height: 42px;
+  padding: 0 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+
+.ct-btn:active {
+  transform: translateY(1px);
+}
+
+.ct-btn--primary {
+  color: #fff;
+  background: var(--ct-accent);
+  border: 1px solid var(--ct-accent);
+}
+
+.ct-btn--primary:hover {
+  background: var(--ct-accent-hover);
+  border-color: var(--ct-accent-hover);
+}
+
+.ct-btn--ghost {
+  color: var(--ct-text);
+  background: transparent;
+  border: 1px solid var(--ct-border);
+}
+
+.ct-btn--ghost:hover {
+  background: var(--ct-row-hover);
+  border-color: #45454a;
+}
+
+/* ---- Table ---- */
+.ct-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--ct-border);
+}
+
+.ct-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.ct-table thead th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ct-muted);
+  background: var(--ct-head-bg);
+  border-bottom: 1px solid var(--ct-border);
+  white-space: nowrap;
+}
+
+.ct-table tbody td {
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ct-border);
+  vertical-align: middle;
+  color: var(--ct-text);
+}
+
+.ct-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ct-table tbody tr:hover {
+  background: var(--ct-row-hover);
+}
+
+.ct-col--center {
+  text-align: center;
+}
+
+.ct-cell--muted {
+  color: var(--ct-muted);
+  white-space: nowrap;
+}
+
+/* ---- Mandatory badge ---- */
+.ct-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  line-height: 1.5;
+}
+
+.ct-badge--yes {
+  color: #ff5c61;
+  background: rgba(232, 33, 39, 0.16);
+  border: 1px solid rgba(232, 33, 39, 0.35);
+}
+
+.ct-badge--no {
+  color: #b0b0b6;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ---- Empty state ---- */
+.ct-empty td {
+  text-align: center;
+  color: var(--ct-muted);
+  padding: 36px 16px;
+}
+
+/* ---- Footer ---- */
+.ct-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--ct-border);
+  background: var(--ct-head-bg);
+}
+
+.ct-count {
+  font-size: 0.8125rem;
+  color: var(--ct-muted);
+  letter-spacing: 0.03em;
+}
+
+/* ---- Pagination ---- */
+.ct-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ct-page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ct-page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ct-text);
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.ct-page-btn:hover:not(:disabled):not(.ct-page-btn--active) {
+  background: var(--ct-row-hover);
+  border-color: #45454a;
+}
+
+.ct-page-btn--active {
+  color: #fff;
+  background: var(--ct-accent);
+  border-color: var(--ct-accent);
+  cursor: default;
+}
+
+.ct-page-btn--nav {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.ct-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ct-page-ellipsis {
+  padding: 0 4px;
+  color: var(--ct-muted);
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .ct-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ct-pagination {
+    justify-content: center;
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .ct-field--actions {
+    flex: 1 1 100%;
+  }
+
+  .ct-btn {
+    flex: 1;
+  }
+}

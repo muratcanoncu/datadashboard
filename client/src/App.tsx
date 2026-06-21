@@ -1,14 +1,8 @@
-import { useState } from 'react'
 import './App.css'
+import CompletedTrainingsTable from './components/CompletedTrainingsTable'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div className='text-red'>Test</div>
-    </>
-  )
+  return <CompletedTrainingsTable />
 }
 
 export default App

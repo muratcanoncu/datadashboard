@@ -1,0 +1,14 @@
+/* Tesla-style page backdrop — applies regardless of OS light/dark setting. */
+#root {
+  width: 100%;
+  max-width: 100%;
+  border-inline: none;
+  text-align: left;
+  background: radial-gradient(120% 80% at 50% -10%, #1a1a1d 0%, #0d0d0f 60%, #000 100%);
+  padding: 48px 24px;
+}
+
+body {
+  margin: 0;
+  background: #0d0d0f;
+}
