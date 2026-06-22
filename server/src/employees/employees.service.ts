@@ -60,11 +60,13 @@ export class EmployeesService {
 
 	}
 
-	async remove(id: number): Promise<string | Error> {
+	async remove(id: number): Promise<Record<string, string>> {
 		const result = await this.employeeRepo.delete({ id });
 		if(result.affected === 0){
 			throw new NotFoundException(`Employee with ${id} ID can not be found`)
 		}
-		return `Employee with ${id} is successfully deleted`
+		return {
+			message: `Employee with ${id} is successfully deleted`
+		}
 	}
 }
