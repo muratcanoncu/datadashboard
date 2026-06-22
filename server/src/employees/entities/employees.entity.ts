@@ -14,7 +14,6 @@ export enum EmployeeLevel {
   LEAD = 'Lead'
 }
 
-
 @Entity()
 export class Employee {
 	@PrimaryGeneratedColumn()
@@ -32,7 +31,8 @@ export class Employee {
 	@Column({
 		type: 'enum',
 		enum: EmployeeLevel,
-        nullable: true,
+		default: EmployeeLevel.ASSOCIATE,
+		nullable: false
 	})
 	level: string
 

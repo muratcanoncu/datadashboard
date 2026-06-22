@@ -19,10 +19,10 @@ export class EmployeesService {
 				name: dto.name,
 				surname: dto.surname,
 				email: dto.email,
-				level: dto.level ?? null
+				level: dto.level
 			})
 			try {
-				const saved = await tx.getRepository(Employee).save(newEmployee) as Employee
+				const saved = await tx.getRepository(Employee).save(newEmployee)
 				return await tx.getRepository(Employee).findOneOrFail({
 					where: { id: saved.id }
 				})

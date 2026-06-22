@@ -1,5 +1,6 @@
 import {
 	Controller,
+	Query,
 	Get,
 	Post,
 	Body,
@@ -15,13 +16,22 @@ export class CompletedTrainingsController {
 
 
 	@Get()
-	findAll() {
-		return this.CompletedTrainingsService.findAllTrainings();
+	findAll(
+		@Query('page') page:string,
+		@Query('limit') limit:string
+	) {
+		return this.CompletedTrainingsService.findAllTrainings(page, limit);
 	}
+	
+	// @Get()
+	// findAll() {
+	// 	return this.CompletedTrainingsService.findAllTrainings();
+	// }
 
 	@Get(':date')
 	findByDate(@Param('date') date: string){
 		return this.CompletedTrainingsService.findByDate(date);
 	}
+
 
 }

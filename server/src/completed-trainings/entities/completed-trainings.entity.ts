@@ -23,11 +23,11 @@ export class CompletedTraining {
 	@Column()
 	name: string;
 
-	@ManyToOne(() => Training, (training) => training.completedTrainings)
+	@ManyToOne(() => Training, (training) => training.completedTrainings, { onDelete:'CASCADE' })
 	@JoinColumn({ name: 'training_id'})
 	training: Training;
 
-	@ManyToOne(() => Employee, (employee) => employee.completedTrainings)
+	@ManyToOne(() => Employee, (employee) => employee.completedTrainings, { onDelete:'SET NULL' })
 	@JoinColumn({ name: 'employee_id'})
 	employee: Employee;
 

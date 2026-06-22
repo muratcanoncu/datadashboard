@@ -15,7 +15,6 @@ export class CreateEmployeeDto {
 	@Length(1,64)
 	email: string;
 
-	@IsString()
 	@IsOptional()
 	@IsEnum(EmployeeLevel)
 	level?: string;

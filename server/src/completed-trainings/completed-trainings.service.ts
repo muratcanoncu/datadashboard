@@ -14,13 +14,25 @@ export class CompletedTrainingsService {
 	// 	return 'This action adds a new employee';
 	// }
 
-	async findAllTrainings() {
-		return await this.completedTrainingRepo.find({
+	async findAllTrainings(page: string ,limit: string): Promise<{ 
+		trainings: CompletedTraining[],
+		page: number, 
+		lastPage: number}> {
+		const pageNum = parseInt(page) || 1;
+		const limitNum = parseInt(limit) || 10;
+		const [trainings, total] = await this.completedTrainingRepo.findAndCount({
 			relations: {
 				employee: true,
-				training: true
-			}
+				training: true,
+			},
+			skip: (pageNum - 1) * limitNum,
+			take: limitNum,
 		})
+		return {
+			trainings,
+			page: pageNum,
+			lastPage: Math.ceil(total / limitNum),
+		}
 	}
 
 	async findByEmployee(employeeId: number): Promise<{
@@ -39,7 +51,7 @@ export class CompletedTrainingsService {
 		};
 	}
 
-	async findByDate(date: string): Promise<CompletedTraining[]> {
+	async findByDate(date: string): Promise<{ trainings: CompletedTraining[]} > {
 		const parsedDate = new Date(date);
 		const start = new Date(parsedDate);
 		start.setHours(0, 0, 0, 0);
@@ -51,12 +63,12 @@ export class CompletedTrainingsService {
 			relations: { employee: true, training: true},
 			order: { completedAt: 'DESC'}
 		})
-		return trainings;
+		return { trainings }
 	}
 
-	// findOne(id: number) {
-	// 	return `This action returns a #${id} employee`;
-	// }
+	async findOneBy(id: number) {
+		return await this.completedTrainingRepo.findOneBy({id})
+	}
 
 	// update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
 	// 	return `This action updates a #${id} employee`;
