@@ -1,0 +1,53 @@
+/* KPI grid for the dashboard summary. Inherits theme variables from .ct-card. */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 24px 28px 28px;
+}
+
+.dash-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: var(--ct-surface);
+  border: 1px solid var(--ct-border);
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.05s ease;
+}
+
+.dash-kpi:hover {
+  border-color: #45454a;
+}
+
+.dash-kpi--accent {
+  border-color: rgba(232, 33, 39, 0.35);
+  background: rgba(232, 33, 39, 0.08);
+}
+
+.dash-kpi__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ct-muted);
+}
+
+.dash-kpi__value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+}
+
+.dash-kpi--accent .dash-kpi__value {
+  color: var(--ct-accent-hover);
+}
+
+.dash-kpi__unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ct-muted);
+  margin-left: 2px;
+}

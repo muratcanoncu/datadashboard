@@ -1,60 +1,79 @@
 import { useEffect, useState } from 'react'
 import './CompletedTrainingsTable.css'
+import type { CompletedTraining } from '../types'
 
-interface CompletedTraining {
-	id: number,
-	name: string,
-	training: {
-		id:  number,
-		name: string,
-		mandatory: boolean
-	}
-	employee: {
-		id:  number,
-		name: string,
-		surname: string
-		email: string,
-		level: string
-	}
-	completedAt: string,
-	createdAt: string,
-	updatedAt: string,
-
-}
 function CompletedTrainingsTable() {
-	const [ trainings, setTrainings ] = useState<CompletedTraining[]>([])
+	const [trainings, setTrainings] = useState<CompletedTraining[]>([])
+	const [filteredTrainings, setFilteredTrainings] = useState<CompletedTraining[]>([])
+	const [lastPage, setLastPage] = useState<number>(0)
+	const [currentPage, setCurrentPage] = useState<number>(1)
 	const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-	const fetchTrainings = async (): Promise<CompletedTraining[] | undefined> =>{
+	const fetchTrainings = async (page: number, limit: number, date?: string): Promise<void> =>{
 		setLoading(true)
 		setError(null)
 
+		const API_URL = "http://localhost:3000/completed-trainings"
+		const url = date
+            ? `${API_URL}/${date}`
+            : `${API_URL}?page=${page}&limit=${limit}`
+		
 		try {
-			const result = await fetch('http://localhost:3000/completed-trainings');
+			const result = await fetch(url);
 			if(!result.ok) {
 				const errData = await result.json();
-				setError(errData)
+				setError(errData.message || 'Failed to fetch completed trainings')
 				return;
 			}
 			
-			const data:CompletedTraining[] = await result.json();
-			console.log(data)
-			setTrainings(data)
+			const data:{
+				trainings: CompletedTraining[],
+				page: number,
+				lastPage: number
+			} = await result.json();
 			
+			setTrainings(data.trainings)
+			setFilteredTrainings(data.trainings)
+			setLastPage(data.lastPage)
+			setCurrentPage(data.page)
 		} catch (error: unknown) {
 			console.error('failed to fetch items, error: ', error)
 			setError((error as Error).message || 'Unknown error message')
 		} finally {
 			setLoading(false)
 		}
-
 	}
 
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect
-		fetchTrainings()
+		fetchTrainings(1, 50)
 	}, [])
+
+	function filterByName(input: HTMLInputElement): void {	
+		if (input.value.length > 2) {
+			const filteredByName = trainings.filter(trainingRecord => {
+				const comparisonName = (input.name === 'employee' ? trainingRecord.employee.name.concat(' ',trainingRecord.employee.surname) : trainingRecord.training.name).toLowerCase();
+				const loverCasedValue = input.value.toLowerCase().trim()
+				return comparisonName.includes(loverCasedValue)
+			})
+			setFilteredTrainings(filteredByName)
+		}	else {
+			setFilteredTrainings(trainings)
+		}
+	}
+
+	async function applyDateFilter(){
+		const dateInput = document.getElementById('filter-date') as HTMLInputElement;
+		if (dateInput.value.toString() !== 'Invalid Date') {
+			await fetchTrainings(1,50, dateInput.value)
+		}
+	}
+
+	function clearAllFilters(){
+		const container = document.querySelector('.js-filterContainer') as HTMLDivElement;
+		container.querySelectorAll('input').forEach(input => input.value = '')
+	}
 	
   return (
     <section className="ct-card">
@@ -66,17 +85,19 @@ function CompletedTrainingsTable() {
       </header>
 
       {/* ---- Filter bar ---- */}
-      <div className="ct-filters">
+      <div className="ct-filters js-filterContainer">
         <div className="ct-field">
           <label className="ct-field__label" htmlFor="filter-employee">
             Employee name
           </label>
           <input
             id="filter-employee"
+			name='employee'
             className="ct-field__input"
             type="text"
             placeholder="e.g. Zeynep Miller"
             autoComplete="off"
+			onInput={(e) => filterByName(e.currentTarget)}
           />
         </div>
 
@@ -87,9 +108,11 @@ function CompletedTrainingsTable() {
           <input
             id="filter-training"
             className="ct-field__input"
+			name='training'
             type="text"
             placeholder="e.g. Fire Safety"
             autoComplete="off"
+			onInput={(e) => filterByName(e.currentTarget)}
           />
         </div>
 
@@ -101,12 +124,17 @@ function CompletedTrainingsTable() {
         </div>
 
         <div className="ct-field ct-field--actions">
-          <button id="btn-apply" className="ct-btn ct-btn--primary" type="button">
+          <button id="btn-apply" className="ct-btn ct-btn--primary" type="button" onClick={() => applyDateFilter()}>
             Apply
           </button>
-          <button id="btn-full-list" className="ct-btn ct-btn--ghost" type="button">
-            Full list
-          </button>
+
+		<button id="btn-revert" className="ct-btn ct-btn--ghost" type="button" 
+			onClick={() => {
+				fetchTrainings(1,50)
+				clearAllFilters()
+			}}>
+            Full List
+        </button>
         </div>
       </div>
 
@@ -124,10 +152,10 @@ function CompletedTrainingsTable() {
           </thead>
 
           <tbody id="ct-tbody">
-			{trainings.map((t) => (
+			{filteredTrainings.map((t) => (
 				<tr key={t.id}>
-					<td>{t.employee.name} {t.employee.surname}</td>
-					<td className="ct-cell--muted">{t.employee.email}</td>
+					<td>{t.employee ? `${t.employee.name} ${t.employee.surname}` : 'Deleted Employee'}</td>
+					<td className="ct-cell--muted">{t.employee ? t.employee.email : 'Deleted Employee'}</td>
 					<td>{t.training.name}</td>
 					<td className="ct-col--center">
 						<span className={`ct-badge ${t.training.mandatory ? 'ct-badge--yes' : 'ct-badge--no'}`}>
@@ -143,7 +171,7 @@ function CompletedTrainingsTable() {
 					</td>
 				</tr>
 			))}
-            <tr className="ct-empty"  hidden={trainings.length !== 0}>
+            <tr className="ct-empty"  hidden={filteredTrainings.length !== 0}>
               <td colSpan={5}>No completed trainings match your filters.</td>
             </tr>
           </tbody>
@@ -151,33 +179,35 @@ function CompletedTrainingsTable() {
       </div>
 
       <footer className="ct-card__footer">
-        <span id="ct-count" className="ct-count">{trainings.length} records</span>
+		{trainings.length > 25 && (
+			<span id="ct-count" className="ct-count">
+				{trainings.length * (currentPage - 1) + 1} - {trainings.length * currentPage} records
+			</span>
+			)
+		}	
 
-        {trainings.length > 25 && (
+        {lastPage > 1 && (
           <nav className="ct-pagination" aria-label="Table pagination">
+			
             <button
               id="page-prev"
               className="ct-page-btn ct-page-btn--nav"
               type="button"
-              disabled
+              disabled={currentPage === 1 ? true : false}
+			  onClick={() => fetchTrainings(currentPage - 1, 50)}
             >
               ‹ Prev
             </button>
 
-            <div className="ct-page-numbers">
-              <button className="ct-page-btn ct-page-btn--active" type="button" data-page={1}>1</button>
-              <button className="ct-page-btn" type="button" data-page={2}>2</button>
-              <button className="ct-page-btn" type="button" data-page={3}>3</button>
-              <span className="ct-page-ellipsis">…</span>
-            </div>
-
-            <button
-              id="page-next"
-              className="ct-page-btn ct-page-btn--nav"
-              type="button"
-            >
-              Next ›
-            </button>
+			<button
+			id="page-next"
+			className="ct-page-btn ct-page-btn--nav"
+			type="button"
+			disabled={currentPage < lastPage ? false : true}
+			onClick={() => fetchTrainings(currentPage + 1, 50)}
+			>
+			Next ›
+			</button>
           </nav>
         )}
       </footer>

@@ -1,0 +1,55 @@
+/* Employee CRUD table — only the bits not already covered by .ct-* classes. */
+
+/* Add-employee form sits flush under the header (the table provides its own top border). */
+.emp-add {
+  padding-top: 24px;
+}
+
+/* Action button cluster per row. */
+.emp-actions {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Smaller buttons so rows stay compact. */
+.emp-btn {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 0.72rem;
+}
+
+.emp-btn--danger {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(232, 33, 39, 0.5);
+}
+
+.emp-btn--danger:hover {
+  background: var(--ct-accent);
+  border-color: var(--ct-accent);
+}
+
+/* Inline-edit inputs shrink to fit inside table cells. */
+.emp-edit-input {
+  height: 36px;
+  width: 100%;
+  min-width: 120px;
+}
+
+.emp-row--editing td {
+  background: var(--ct-row-hover);
+}
+
+/* Level pill in the read view. */
+.emp-level {
+  display: inline-block;
+  padding: 3px 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  color: #b0b0b6;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}

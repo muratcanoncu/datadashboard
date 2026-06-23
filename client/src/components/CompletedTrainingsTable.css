@@ -10,7 +10,8 @@
   --ct-head-bg: #161618;
   --ct-radius: 16px;
 
-  max-width: 980px;
+  width: 100%;
+  flex: 1;
   margin: 0 auto;
   background: var(--ct-bg);
   border: 1px solid var(--ct-border);
@@ -82,6 +83,10 @@
   border-radius: 8px;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ct-field__input.invalid{
+	border:3px solid var(--ct-accent);
 }
 
 .ct-field__input:focus {
@@ -167,7 +172,7 @@
 }
 
 .ct-table tbody td {
-  padding: 15px 16px;
+  padding: 10px 6px;
   border-bottom: 1px solid var(--ct-border);
   vertical-align: middle;
   color: var(--ct-text);
@@ -188,6 +193,7 @@
 .ct-cell--muted {
   color: var(--ct-muted);
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* ---- Mandatory badge ---- */
@@ -218,7 +224,7 @@
 .ct-empty td {
   text-align: center;
   color: var(--ct-muted);
-  padding: 36px 16px;
+  padding: 16px 4px;
 }
 
 /* ---- Footer ---- */

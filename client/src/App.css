@@ -12,3 +12,22 @@ body {
   margin: 0;
   background: #0d0d0f;
 }
+
+/* Stack the dashboard + tables with consistent spacing. */
+.app-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 90%;
+  padding: 6rem 0;
+  margin: 0 auto;
+}
+
+.tables{
+	display: flex;
+	align-items: baseline;
+	gap: 2rem;
+	@media screen and (max-width: 1024px) {
+		flex-direction: column;
+	}
+}
