@@ -39,15 +39,17 @@ export class CompletedTrainingsService {
 		employeeId: number, 
 		count:number,
 		trainings: CompletedTraining[]}> {
-		const trainings = await this.completedTrainingRepo.find({
-			where: { employee: { id: employeeId } },
-			relations: { training: true },
-			order: { completedAt: 'DESC'}
-		})
+		const trainings = await this.completedTrainingRepo
+			.createQueryBuilder('ct')
+			.innerJoinAndSelect('ct.training', 'training')
+			.select(['ct.name', 'ct.completedAt', 'training.mandatory'])
+			.where('ct.employee = :employee', {employee: employeeId})
+			.orderBy('ct.completedAt', 'DESC')
+			.getMany()
 		return { 
 			employeeId, 
 			count: trainings.length, 
-			trainings 
+			trainings,
 		};
 	}
 
@@ -66,7 +68,7 @@ export class CompletedTrainingsService {
 		return { trainings }
 	}
 
-	async findOneBy(id: number) {
+	async findOneBy(id: number): Promise<CompletedTraining> {
 		return await this.completedTrainingRepo.findOneBy({id})
 	}
 

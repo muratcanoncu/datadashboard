@@ -8,7 +8,6 @@ import { Employee } from './entities/employees.entity'
 
 @Injectable()
 export class EmployeesService {
-
 	constructor(
 		@InjectRepository(Employee) private readonly employeeRepo: Repository<Employee>
 	) {}
@@ -61,7 +60,8 @@ export class EmployeesService {
 	}
 
 	async remove(id: number): Promise<Record<string, string>> {
-		const result = await this.employeeRepo.delete({ id });
+		const result = await this.employeeRepo.delete({ id }); // returns a promise with affected
+		// const result: Employee = await this.employeeRepo.remove({id}); // returns deleted row
 		if(result.affected === 0){
 			throw new NotFoundException(`Employee with ${id} ID can not be found`)
 		}
