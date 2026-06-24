@@ -23,6 +23,19 @@ export class DashboardService {
 			.innerJoinAndSelect('ct.training', 'training') // get left table relationship object, and right table
 			.where('training.mandatory = :mandatory', { mandatory: true }) // pick the column and value
 			.getCount();
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const totalCompletedQuery = await this.completeTrainingRepo.manager.query(`
+				SELECT ct.name, ct.created_at 
+			 	FROM completed_training ct
+				INNER JOIN training t 
+				ON ct.training_id = t.id
+				WHERE t.mandatory = true
+			`)
+			// select => selected columns after join
+			// from => left table
+			// inner join => right table 
+			// on => matching rows
+			// where => condition to return
 		return {
 			totalTrainings,
 			totalEmployees,

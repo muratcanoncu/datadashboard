@@ -45,7 +45,7 @@ export class EmployeesService {
 	}
 
 	async findOne(id: number): Promise<Employee> {
-		return this.employeeRepo.findOne( { 
+		return this.employeeRepo.findOne({ 
 			where: { id },
 		})
 	}

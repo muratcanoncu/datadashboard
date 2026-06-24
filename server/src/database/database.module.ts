@@ -11,6 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 			password: 'admin',
 			database: 'tesladb',
 			synchronize: true,
+			entities: [__dirname + '/../**/*.entity.{js,ts}'],
+			migrations: [__dirname + '/../migrations/*.{js,ts}'],
 			autoLoadEntities: true,
 		}),
 	],
