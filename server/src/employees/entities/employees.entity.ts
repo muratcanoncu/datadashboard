@@ -38,4 +38,7 @@ export class Employee {
 
 	@OneToMany(() => CompletedTraining, (completedTraining) => completedTraining.employee)
 	completedTrainings: CompletedTraining[];
+
+	@Column({ type:'varchar', length: 32})
+	country: string
 }

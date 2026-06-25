@@ -10,4 +10,8 @@ export class DashboardController {
 		return this.service.getSummary();
 	}
 
+	@Get('query-exercise')
+	exerciseQuery(){
+		return this.service.exerciseQuery()
+	}
 }

@@ -44,4 +44,16 @@ export class DashboardService {
 		}
 	}
 
+
+	async exerciseQuery(): Promise<any>{
+		const queryResult: unknown = await this.completeTrainingRepo.manager.query(`
+				SELECT ct.name, ct.id, ct.completed_at
+				FROM completed_training ct
+				WHERE ct.id = 4 OR ct.id = 2 OR ct.id=1 OR ct.id = 3
+			`)
+			return {
+				queryResult
+			}
+	}
+
 }
